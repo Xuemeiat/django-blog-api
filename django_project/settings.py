@@ -11,6 +11,10 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
+from environs import Env #new
+
+env = Env()
+env.read_env()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -42,15 +46,16 @@ INSTALLED_APPS = [
     'rest_framework',
     'corsheaders',
     'rest_framework.authtoken',
-    'allauth', #new
+    'allauth', 
     'allauth.account',
     'allauth.socialaccount',
     'dj_rest_auth', 
     'dj_rest_auth.registration',
+    'drf_spectacular', #new
     
     #local
     'accounts.apps.AccountsConfig',
-    'posts.apps.PostsConfig', #new
+    'posts.apps.PostsConfig',
 ]
 
 MIDDLEWARE = [
@@ -142,7 +147,7 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-AUTH_USER_MODEL = 'accounts.CustomUser' #new
+AUTH_USER_MODEL = 'accounts.CustomUser' 
 
 REST_FRAMEWORK = { #new
     "DEFAULT_PERMISSION_CLASSES": [
@@ -150,8 +155,9 @@ REST_FRAMEWORK = { #new
     ],
     "DEFAULT_AUTHENTICATION_CLASSES": [
         "rest_framework.authentication.SessionAuthentication",
-        "rest_framework.authentication.TokenAuthentication", #new
+        "rest_framework.authentication.TokenAuthentication", 
     ],
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema", #new
 }
 
 CORS_ORIGIN_WHITELIST = (
@@ -159,4 +165,11 @@ CORS_ORIGIN_WHITELIST = (
     "http://localhost:8000",
 )
 
-CSRF_TRUSTED_ORIGINS = ["http://localhost:3000"] #new
+CSRF_TRUSTED_ORIGINS = ["http://localhost:3000"] 
+
+SPECTACULAR_SETTINGS  = { #new
+    "TITLE": "Blog API Project",
+    "DESCRIPTION": "A sample blog to learn about DRF",
+    "VERSION": "1.0.0",
+}
+
