@@ -7,7 +7,7 @@ class IsAuthorOrReadOnly(permissions.BasePermission):
             return True
         return False
     
-    def has_permission_object(self, request, view, obj):
+    def has_object_permission(self, request, view, obj):
         #read permission allowed to any requests so we'll always
         # allow GET, HEAD OR OPTIONS requests
         if request.method in permissions.SAFE_METHODS:

@@ -21,10 +21,17 @@ RUN pip install -r requirements.txt
 COPY . .
 
 # Collect static files
-RUN python manage.py collectstatic --noinput
+
+RUN chmod +x entrypoint.sh
 
 # Expose port
 EXPOSE 8000
 
+ENTRYPOINT ["./entrypoint.sh"]
+
 # Start server
-CMD ["gunicorn", "django_project.wsgi:application", "--bind", "0.0.0.0:8000", "--timeout", "120", "--workers", "2"]
+CMD ["gunicorn", "django_project.wsgi:application", \
+"--bind", "0.0.0.0:8000", \
+"--workers", "3",\
+"--threads", "2",\
+"--timeout", "120" ]
